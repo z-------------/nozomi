@@ -3,7 +3,11 @@ const formatTimestamp = time => {
     const minutes = time % 3600;
     const m = Math.floor(minutes / 60);
     const s = minutes % 60;
-    return [h, m, s].map(n => n.toString().padStart(2, "0")).join(":");
+    return [
+        h.toString().padStart(2, "0"),
+        m.toString().padStart(2, "0"),
+        s.toFixed(1).padStart(4, "0"),
+    ].join(":");
 };
 
 module.exports = formatTimestamp;

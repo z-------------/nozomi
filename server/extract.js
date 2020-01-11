@@ -11,7 +11,11 @@ const extract = async (inPath, outDir) => {
     const args = ["-y", "-i", inPath, outPath];
 
     console.log(cmd, ...args);
-    await execa(cmd, args);
+    try {
+        await execa(cmd, args)
+    } catch (e) {
+        console.error(e);
+    };
 };
 
 module.exports = extract;

@@ -20,7 +20,7 @@ const render = async (filePath, time, outDir, outName) => {
 
     console.log(cmd, ...args);
     try {
-        await execa(cmd, args)
+        await execa(cmd, args);
     } catch (e) {
         console.error(e);
     };

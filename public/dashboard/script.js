@@ -56,7 +56,7 @@ function updateExtractPane() {
             el.classList.add("clickable");
             el.textContent = `${filename}${isExtracted ? " [extracted]" : ""}`;
             el.addEventListener("click", async () => {
-                status(`Extract subs from '${filename}'...`);
+                status(`Extracting subs from '${filename}'...`);
                 await fetch(`/api/extract?filename=${filename}`);
                 status(`Extracted subs from '${filename}'.`);
                 updateExtractPane();
@@ -87,6 +87,7 @@ function makeSearchResultItem(videoName, { text, timeStart, timeEnd }) {
         const el = element;
         const times = [el.dataset.timeStart, el.dataset.timeEnd].map(Number);
         const time = roundPlaces((times[0] + times[1]) / 2, 3);
+        // const time = Math.min(times[0] + 1, times[1]);
         status(`Rendering '${el.dataset.filename}' at ${formatTimestamp(time)}...`);
         await fetchRender(el.dataset.filename, time);
         status(`Rendered '${el.dataset.filename}' at ${formatTimestamp(time)}.`);

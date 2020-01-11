@@ -6,15 +6,19 @@ const posixifyPath = filepath => filepath.split(path.sep).join(path.posix.sep);
 
 const escapeFilename = filename => filename.replace(/\[/g, "\\[").replace(/\]/g, "\\]");
 
-const render = async (filePath, time, outDir, outName) => {
-    const timestamp = formatTimestamp(time);
+const render = async (videoPath, timeStart, outDir, outName) => {
+    const timestampStart = formatTimestamp(timeStart);
+
     const outPath = path.join(outDir, outName);
 
     const cmd = "ffmpeg";
     const args = [
-        "-y", "-i", filePath,
-        "-vf", `subtitles=${escapeFilename(posixifyPath(path.relative(process.cwd(), filePath)))}`,
-        "-ss", timestamp, "-vframes", "1",
+        "-y",
+        "-copyts",
+        "-ss", timestampStart,
+        "-i", videoPath,
+        "-vf", `subtitles=${escapeFilename(posixifyPath(path.relative(process.cwd(), videoPath)))}:si=0`,
+        "-frames:v", "1",
         outPath
     ];
 

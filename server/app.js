@@ -65,16 +65,16 @@ app.use(async (ctx, next) => {
             ctx.body = results;
             break;
         case "render":
-            const filePath = path.join(config["video_dir"], ctx.query["filename"]);
+            const videoPath = path.join(config["video_dir"], ctx.query["filename"]);
 
             const time = Number(ctx.query["time"]);
             const timestamp = formatTimestamp(time);
 
-            const outName = `${path.parse(filePath).name}-${timestamp.replace(/:/g, "-")}.jpg`;
+            const outName = `${path.parse(videoPath).name}-${timestamp.replace(/:/g, "-")}.jpg`;
             try {
                 await fs.promises.stat(path.join(config["render_dir"], outName));
             } catch (e) {
-                await render(filePath, time, config["render_dir"], outName);
+                await render(videoPath, time, config["render_dir"], outName);
             }
             await send(ctx, outName, { root: config["render_dir"] });
             break;

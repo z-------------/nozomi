@@ -20,8 +20,10 @@ const searchOne = async (filePath, term, exact) => {
                 if (text.includes(term)) {
                     results.push({
                         text: fragment.text.replace(/\\N/g, " "),
-                        timeStart: roundPlaces(dialog.start, 3),
-                        timeEnd: roundPlaces(dialog.end, 3),
+                        // timeStart: roundPlaces(dialog.start, 3),
+                        // timeEnd: roundPlaces(dialog.end, 3),
+                        timeStart: dialog.start,
+                        timeEnd: dialog.end,
                     });
                 }
             }

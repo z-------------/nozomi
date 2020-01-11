@@ -32,6 +32,10 @@ input, button {
     background-color: #eee;
 }
 
+.no-scroll {
+    overflow: hidden !important;
+}
+
 main {
     display: flex;
     flex-direction: column;

@@ -6,7 +6,7 @@ const formatTimestamp = time => {
     return [
         h.toString().padStart(2, "0"),
         m.toString().padStart(2, "0"),
-        s.toFixed(1).padStart(4, "0"),
+        s.toFixed(3).padStart(4, "0"),
     ].join(":");
 };
 

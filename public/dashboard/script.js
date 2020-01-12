@@ -7,6 +7,8 @@ const searchExactInput = document.getElementById("search-form-exact");
 const searchButton = document.getElementById("search-form-button");
 const searchResultsEl = document.getElementById("search-results");
 
+const renderPositionInput = document.getElementById("render-setting-position");
+
 const renderEl = document.getElementById("render-image");
 
 const extractEl = document.getElementById("section-extract");
@@ -86,8 +88,20 @@ function makeSearchResultItem(videoName, { text, timeStart, timeEnd }) {
     element.addEventListener("click", async e => {
         const el = element;
         const times = [el.dataset.timeStart, el.dataset.timeEnd].map(Number);
-        const time = roundPlaces((times[0] + times[1]) / 2, 3);
-        // const time = Math.min(times[0] + 1, times[1]);
+
+        let time;
+        switch (renderPositionInput.value) {
+            case "start":
+                time = times[0];
+                break;
+            case "middle":
+                time = roundPlaces((times[0] + times[1]) / 2, 3);
+                break;
+            case "end":
+                time = times[1] - 0.1;
+                break;
+        }
+
         status(`Rendering '${el.dataset.filename}' at ${formatTimestamp(time)}...`);
         await fetchRender(el.dataset.filename, time);
         status(`Rendered '${el.dataset.filename}' at ${formatTimestamp(time)}.`);
@@ -101,7 +115,7 @@ function listSearchResults(results) {
 
     for (const key in results) {
         const labelEl = document.createElement("div");
-        labelEl.classList.add("search-results-label");
+        labelEl.classList.add("search-results-label", "heading");
         labelEl.textContent = key;
         searchResultsEl.appendChild(labelEl);
 

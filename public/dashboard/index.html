@@ -20,13 +20,25 @@
             <section class="tall">
                 <h2>Search</h2>
                 <div class="container" id="section-search">
-                    <div class="search-form">
+                    <div id="search-form">
                         <input type="search" placeholder="Enter search term" id="search-form-term"/>
                         <label>
                             <span>Exact?</span>
                             <input type="checkbox" id="search-form-exact"/>
                         </label>
                         <button id="search-form-button">Search</button>
+                    </div>
+                    <hr/>
+                    <div id="render-settings">
+                        <span class="heading">Render settings:</span>
+                        <label>
+                            <span>Position</span>
+                            <select id="render-setting-position">
+                                <option value="start">Start</option>
+                                <option value="middle">Middle</option>
+                                <option value="end">End</option>
+                            </select>
+                        </label>
                     </div>
                     <hr/>
                     <div id="search-results"></div>

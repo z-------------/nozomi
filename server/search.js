@@ -37,11 +37,15 @@ const search = async (term, exact, subsDir) => {
     const results = {};
     const filenames = (await fs.readdir(subsDir))
         .filter(filename => path.extname(filename).toLowerCase() === ".ass");
+    const promises = [];
     for (const filename of filenames) {
         const filePath = path.join(subsDir, filename);
-        const resultsOne = await searchOne(filePath, term, exact);
-        if (resultsOne.length) {
-            results[path.parse(filename).name] = resultsOne;
+        promises.push(searchOne(filePath, term, exact));
+    }
+    const resultsEach = await Promise.all(promises);
+    for (let i = 0, l = resultsEach.length; i < l; ++i) {
+        if (resultsEach[i].length) {
+            results[path.parse(filenames[i]).name] = resultsEach[i];
         }
     }
     return results;

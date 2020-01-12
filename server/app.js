@@ -74,7 +74,7 @@ app.use(async (ctx, next) => {
             try {
                 await fs.promises.stat(path.join(config["render_dir"], outName));
             } catch (e) {
-                await render(videoPath, time, config["render_dir"], outName);
+                await render(videoPath, config["sub_dir"], time, config["render_dir"], outName);
             }
             await send(ctx, outName, { root: config["render_dir"] });
             break;

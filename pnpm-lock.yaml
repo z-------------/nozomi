@@ -1,5 +1,6 @@
 dependencies:
   ass-compiler: 0.0.11
+  ebml: 3.0.0
   execa: 4.0.0
   koa: 2.11.0
   koa-send: 5.0.0
@@ -23,6 +24,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-daFDzLCVwG5HkG1ZxrFHRuJAq4+GBb2HRriOf1qWitdfqj8mUvUbi3e0scNTPuEdVdG4LbeWtIGYZRBJueYMcw==
+  /buffers/0.1.1:
+    dev: false
+    engines:
+      node: '>=0.2.0'
+    resolution:
+      integrity: sha1-skV5w77U1tOWru5tmorn9Ugqt7s=
   /cache-content-type/1.0.1:
     dependencies:
       mime-types: 2.1.26
@@ -108,6 +115,15 @@ packages:
     dev: false
     resolution:
       integrity: sha1-l4hXRCxEdJ5CBmE+N5RiBYJqvYA=
+  /ebml/3.0.0:
+    dependencies:
+      buffers: 0.1.1
+      debug: 3.1.0
+    dev: false
+    engines:
+      node: '>= 6.4'
+    resolution:
+      integrity: sha512-Q6C1u4/TX1nYipT9HNIopp95YyyyI0zs1GXdNRKO7XL7k+oo+ZtDc1CaJjpCdmlLxWsnlKBOXJCXkYU0K/Anlg==
   /ee-first/1.1.1:
     dev: false
     resolution:
@@ -532,6 +548,7 @@ packages:
       integrity: sha512-faQrqNMzcPCHGVC2aaOINk13K+aaBDUPjGWl0teOXywElLjyVAB6Oe2jj62jHYtwsU49jXhScYbvPENK+6zAvQ==
 specifiers:
   ass-compiler: ^0.0.11
+  ebml: ^3.0.0
   execa: ^4.0.0
   koa: ^2.11.0
   koa-send: ^5.0.0

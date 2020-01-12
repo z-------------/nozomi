@@ -111,13 +111,19 @@ function listSearchResults(results) {
     }
 }
 
-searchButton.addEventListener("click", async () => {
+async function handleSearch() {
     const term = searchTermInput.value;
     const exact = searchExactInput.checked;
+    
     const results = await fetch(`/api/search?term=${term}&exact=${exact ? "true" : "false"}`)
         .then(body => body.json());
     status(`Performed ${exact ? "" : "non-"}exact search for '${term}'.`);
     listSearchResults(results);
+}
+
+searchButton.addEventListener("click", handleSearch);
+searchTermInput.addEventListener("keydown", e => {
+    if (e.key === "Enter") handleSearch();
 });
 
 /* render pane */

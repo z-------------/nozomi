@@ -5,6 +5,7 @@ const Koa = require("koa");
 const send = require("koa-send");
 const static = require("koa-static");
 
+const loadConfig = require("../lib/loadConfig");
 const extract = require("./extract");
 const search = require("./search");
 const render = require("./render");
@@ -16,12 +17,7 @@ const PORT = 8080;
 
 /* load config */
 
-const config = require("../config.json");
-for (const key in config) {
-    if (key.endsWith("_dir")) {
-        config[key] = path.resolve(path.join(__dirname, ".."), config[key]);
-    }
-}
+const config = loadConfig();
 console.log(config);
 
 /* create output dirs */

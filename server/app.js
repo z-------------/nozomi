@@ -46,6 +46,11 @@ const app = new Koa();
 // logger
 app.use((ctx, next) => {
     console.log(ctx.path, Object.assign({}, ctx.query));
+    return next();
+});
+
+// path splitter
+app.use((ctx, next) => {
     ctx.state.path = ctx.path.slice(1).split("/");
     return next();
 });

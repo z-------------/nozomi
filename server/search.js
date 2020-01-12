@@ -4,8 +4,8 @@ const path = require("path");
 
 const unexactify = text => text
     .toLowerCase()
-    .replace(/[ .,!?&-]/g, "")
-    .replace(/\\N/g, "");
+    .replace(/\\N/g, " ")
+    .replace(/[-]/g, "");
 
 const roundPlaces = (n, d) => Math.round(n * 10 ** d) / 10 ** d;
 

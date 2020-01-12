@@ -8,29 +8,15 @@
     <body>
         <main>
             <section>
-                <h2>Extract</h2>
+                <header>
+                    <h2>Extract</h2>
+                </header>
                 <div class="container" id="section-extract"></div>
             </section>
             <section>
-                <h2>Render</h2>
-                <div class="container no-scroll" id="section-render">
-                    <img id="render-image"/>
-                </div>
-            </section>
-            <section class="tall">
-                <h2>Search</h2>
-                <div class="container" id="section-search">
-                    <div id="search-form">
-                        <input type="search" placeholder="Enter search term" id="search-form-term"/>
-                        <label>
-                            <span>Exact?</span>
-                            <input type="checkbox" id="search-form-exact"/>
-                        </label>
-                        <button id="search-form-button">Search</button>
-                    </div>
-                    <hr/>
+                <header>
+                    <h2>Render</h2>
                     <div id="render-settings">
-                        <span class="heading">Render settings:</span>
                         <label>
                             <span>Position</span>
                             <select id="render-setting-position">
@@ -39,6 +25,24 @@
                                 <option value="end">End</option>
                             </select>
                         </label>
+                    </div>
+                </header>
+                <div class="container no-scroll" id="section-render">
+                    <img id="render-image"/>
+                </div>
+            </section>
+            <section class="tall">
+                <header>
+                    <h2>Search</h2>
+                </header>
+                <div class="container" id="section-search">
+                    <div id="search-form">
+                        <input type="search" placeholder="Enter search term" id="search-form-term"/>
+                        <label>
+                            <span>Exact?</span>
+                            <input type="checkbox" id="search-form-exact"/>
+                        </label>
+                        <button id="search-form-button">Search</button>
                     </div>
                     <hr/>
                     <div id="search-results"></div>

@@ -66,10 +66,17 @@ section.tall {
     height: 100%;
 }
 
-section h2 {
+section header {
     margin: 0;
     padding: 7px 10px;
     background-color: lightgrey;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+section h2 {
+    margin: 0;
 }
 
 section .container {

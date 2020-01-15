@@ -5,13 +5,13 @@ const Koa = require("koa");
 const send = require("koa-send");
 const static = require("koa-static");
 
-const loadConfig = require("../lib/loadConfig");
-const extract = require("./extract");
-const search = require("./search");
-const render = require("./render");
-const list = require("./list");
+const loadConfig = require("./lib/loadConfig");
+const extract = require("./lib/extract");
+const search = require("./lib/search");
+const render = require("./lib/render");
+const list = require("./lib/list");
 
-const formatTimestamp = require("./formatTimestamp");
+const formatTimestamp = require("./lib/formatTimestamp");
 
 const PORT = 8080;
 
@@ -97,7 +97,7 @@ app.use((ctx, next) => {
 });
 
 // static
-app.use(static(path.join(__dirname, "..", "public")));
+app.use(static(path.join(__dirname, "public")));
 
 /* start */
 

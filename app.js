@@ -18,7 +18,10 @@ const PORT = 8080;
 /* load config */
 
 const config = loadConfig();
-console.log(config);
+console.log("Config:");
+for (const key in config) {
+    console.log(`\t${key} = ${config[key]}`);
+}
 
 /* create output dirs */
 

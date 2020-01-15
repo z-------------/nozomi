@@ -2,6 +2,9 @@
   "name": "nozomi",
   "version": "0.0.0",
   "main": "index.js",
+  "scripts": {
+    "start": "node app"
+  },
   "repository": "https://github.com/z-------------/nozomi.git",
   "author": "Zack Guard <zacharyguard@gmail.com>",
   "license": "MIT",

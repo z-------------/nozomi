@@ -77,22 +77,19 @@ app.use(async (ctx, next) => {
             const [mode, ext] = match(ctx.query["mode"], [
                 ["screenshot", [RenderMode.Screenshot, "jpg"]],
                 ["audio", [RenderMode.Audio, "m4a"]],
-                ["video", [subtitles ? RenderMode.VideoSub : RenderMode.VideoNoSub, "mp4"]],
+                ["video", [RenderMode.Video, "mp4"]],
             ]);
             const videoPath = path.join(config["video_dir"], ctx.query["filename"]);
 
             const timeStart = Number(ctx.query["start"]);
             const timeEnd = Number(ctx.query["end"]);
 
-            const suffix = match(mode, [
-                [RenderMode.VideoSub, "_sub"],
-                [RenderMode.VideoNoSub, "_nosub"],
-            ]) || "";
+            const suffix = mode === RenderMode.Video ? (subtitles ? "_sub" : "_nosub") : "";
             const outName = `${path.parse(videoPath).name}-${formatTimestamp(timeStart).replace(/:/g, "-")}${suffix}.${ext}`;
             try {
                 await fs.promises.stat(path.join(config["render_dir"], outName));
             } catch (e) {
-                await render(mode, videoPath, config["sub_dir"], [timeStart, timeEnd], config["render_dir"], outName);
+                await render(mode, { subtitles }, videoPath, config["sub_dir"], [timeStart, timeEnd], config["render_dir"], outName);
             }
             await send(ctx, outName, { root: config["render_dir"] });
             break;

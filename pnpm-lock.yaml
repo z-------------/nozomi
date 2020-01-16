@@ -5,7 +5,7 @@ dependencies:
   koa: 2.11.0
   koa-send: 5.0.0
   koa-static: 5.0.0
-  suitchi: 0.0.1
+  suitchi: 0.0.2
 lockfileVersion: 5.1
 packages:
   /accepts/1.3.7:
@@ -487,10 +487,10 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-BrpvfNAE3dcvq7ll3xVumzjKjZQ5tI1sEUIKr3Uoks0XUl45St3FlatVqef9prk4jRDzhW6WZg+3bk93y6pLjA==
-  /suitchi/0.0.1:
+  /suitchi/0.0.2:
     dev: false
     resolution:
-      integrity: sha512-KPF4Fg0+/TFkpFEN6WCTYDMBK2qJPfkmYBxP5qGnNxN0/CCNXVTt+rysCyl0+d94Ct2TStToETNDEp33PQCx+g==
+      integrity: sha512-0XFA1VtjFe0CfBWSoKLyGFHonz54unw7tDCrz8jxTisZKkCdjkQ6z6AAD54TXaYp68CeBwUA8NfPcmweWrv6Jg==
   /thenify-all/1.6.0:
     dependencies:
       thenify: 3.3.0
@@ -558,4 +558,4 @@ specifiers:
   koa: ^2.11.0
   koa-send: ^5.0.0
   koa-static: ^5.0.0
-  suitchi: ^0.0.1
+  suitchi: ^0.0.2

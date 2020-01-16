@@ -9,7 +9,7 @@ const match = require("suitchi");
 const loadConfig = require("./lib/loadConfig");
 const extract = require("./lib/extract");
 const search = require("./lib/search");
-const { render, RenderMode } = require("./lib/render");
+const { render, getRenderName, RenderMode } = require("./lib/render");
 const list = require("./lib/list");
 
 const formatTimestamp = require("./lib/formatTimestamp");
@@ -74,18 +74,17 @@ app.use(async (ctx, next) => {
 
         case "render":
             const subtitles = ctx.query["subtitles"] === "true";
-            const [mode, ext] = match(ctx.query["mode"], [
-                ["screenshot", [RenderMode.Screenshot, "jpg"]],
-                ["audio", [RenderMode.Audio, "m4a"]],
-                ["video", [RenderMode.Video, "mp4"]],
+            const mode = match(ctx.query["mode"], [
+                ["screenshot", RenderMode.Screenshot],
+                ["audio", RenderMode.Audio],
+                ["video", RenderMode.Video],
             ]);
             const videoPath = path.join(config["video_dir"], ctx.query["filename"]);
 
             const timeStart = Number(ctx.query["start"]);
             const timeEnd = Number(ctx.query["end"]);
 
-            const suffix = mode === RenderMode.Video ? (subtitles ? "_sub" : "_nosub") : "";
-            const outName = `${path.parse(videoPath).name}-${formatTimestamp(timeStart).replace(/:/g, "-")}${suffix}.${ext}`;
+            const outName = getRenderName(mode, { subtitles }, videoPath, [timeStart, timeEnd]);
             try {
                 await fs.promises.stat(path.join(config["render_dir"], outName));
             } catch (e) {

@@ -18,6 +18,13 @@
                     <h2>Render</h2>
                     <div id="render-settings">
                         <label>
+                            <span>Mode</span>
+                            <select id="render-setting-mode">
+                                <option value="screenshot">Screenshot</option>
+                                <option value="audio">Audio</option>
+                            </select>
+                        </label>
+                        <label>
                             <span>Position</span>
                             <select id="render-setting-position">
                                 <option value="start">Start</option>
@@ -27,8 +34,9 @@
                         </label>
                     </div>
                 </header>
-                <div class="container no-scroll" id="section-render">
+                <div class="container" id="section-render">
                     <img id="render-image"/>
+                    <audio id="render-audio" controls></audio>
                 </div>
             </section>
             <section class="tall">

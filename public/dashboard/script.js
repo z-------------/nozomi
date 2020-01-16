@@ -7,9 +7,11 @@ const searchExactInput = document.getElementById("search-form-exact");
 const searchButton = document.getElementById("search-form-button");
 const searchResultsEl = document.getElementById("search-results");
 
+const renderModeInput = document.getElementById("render-setting-mode");
 const renderPositionInput = document.getElementById("render-setting-position");
 
-const renderEl = document.getElementById("render-image");
+const renderImageEl = document.getElementById("render-image");
+const renderAudioEl = document.getElementById("render-audio");
 
 const extractEl = document.getElementById("section-extract");
 
@@ -87,24 +89,25 @@ function makeSearchResultItem(videoName, { text, timeStart, timeEnd }) {
 
     element.addEventListener("click", async e => {
         const el = element;
-        const times = [el.dataset.timeStart, el.dataset.timeEnd].map(Number);
 
-        let time;
+        const times = [el.dataset.timeStart, el.dataset.timeEnd].map(Number);
+        let timeStart;
         switch (renderPositionInput.value) {
             case "start":
-                time = times[0];
+                timeStart = times[0];
                 break;
             case "middle":
-                time = roundPlaces((times[0] + times[1]) / 2, 3);
+                timeStart = roundPlaces((times[0] + times[1]) / 2, 3);
                 break;
             case "end":
-                time = times[1] - 0.1;
+                timeStart = times[1] - 0.1;
                 break;
         }
+        let timeEnd = times[1];
 
-        status(`Rendering '${el.dataset.filename}' at ${formatTimestamp(time)}...`);
-        await fetchRender(el.dataset.filename, time);
-        status(`Rendered '${el.dataset.filename}' at ${formatTimestamp(time)}.`);
+        status(`Rendering '${el.dataset.filename}' at ${formatTimestamp(timeStart)}...`);
+        await fetchRender(renderModeInput.value, el.dataset.filename, [timeStart, timeEnd]);
+        status(`Rendered '${el.dataset.filename}' at ${formatTimestamp(timeStart)}.`);
     });
 
     return element;
@@ -142,11 +145,18 @@ searchTermInput.addEventListener("keydown", e => {
 
 /* render pane */
 
-function fetchRender(videoFilename, time) {
+function fetchRender(modeStr, videoFilename, [timeStart, timeEnd]) {
+    const srcUrl = `/api/render?mode=${modeStr}&filename=${videoFilename}&start=${timeStart}&end=${timeEnd}`;
     return new Promise(resolve => {
-        renderEl.removeAttribute("src");
-        renderEl.onload = resolve;
-        renderEl.setAttribute("src", `/api/render?filename=${videoFilename}&time=${time}`);
+        const [el, eventName] = modeStr === "audio" ?
+            [renderAudioEl, "canplaythrough"] :
+            [renderImageEl, "load"];
+        el.removeAttribute("src");
+        el[`on${eventName}`] = () => {
+            if (modeStr === "audio") el.play();
+            resolve();
+        };
+        el.setAttribute("src", srcUrl);
     });
 }
 

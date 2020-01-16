@@ -5,7 +5,7 @@ const Koa = require("koa");
 const send = require("koa-send");
 const static = require("koa-static");
 
-const suitchi = require("suitchi");
+const match = require("suitchi");
 const loadConfig = require("./lib/loadConfig");
 const extract = require("./lib/extract");
 const search = require("./lib/search");
@@ -73,18 +73,22 @@ app.use(async (ctx, next) => {
             break;
 
         case "render":
-            const [mode, ext] = suitchi(ctx.query["mode"], [
+            const subtitles = ctx.query["subtitles"] === "true";
+            const [mode, ext] = match(ctx.query["mode"], [
                 ["screenshot", [RenderMode.Screenshot, "jpg"]],
                 ["audio", [RenderMode.Audio, "m4a"]],
-                // ["video", [ctx.query["subtitles"] ? RenderMode.VideoSub : RenderMode.VideoNoSub, "mp4"]],
-                ["video", [RenderMode.VideoSub, "mp4"]],
+                ["video", [subtitles ? RenderMode.VideoSub : RenderMode.VideoNoSub, "mp4"]],
             ]);
             const videoPath = path.join(config["video_dir"], ctx.query["filename"]);
 
             const timeStart = Number(ctx.query["start"]);
             const timeEnd = Number(ctx.query["end"]);
 
-            const outName = `${path.parse(videoPath).name}-${formatTimestamp(timeStart).replace(/:/g, "-")}.${ext}`;
+            const suffix = match(mode, [
+                [RenderMode.VideoSub, "_sub"],
+                [RenderMode.VideoNoSub, "_nosub"],
+            ]) || "";
+            const outName = `${path.parse(videoPath).name}-${formatTimestamp(timeStart).replace(/:/g, "-")}${suffix}.${ext}`;
             try {
                 await fs.promises.stat(path.join(config["render_dir"], outName));
             } catch (e) {

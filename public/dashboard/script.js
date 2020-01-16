@@ -8,6 +8,7 @@ const searchButton = document.getElementById("search-form-button");
 const searchResultsEl = document.getElementById("search-results");
 
 const renderModeInput = document.getElementById("render-setting-mode");
+const renderSubtitlesInput = document.getElementById("render-setting-subtitles");
 const renderPositionInput = document.getElementById("render-setting-position");
 
 const renderImageEl = document.getElementById("render-image");
@@ -107,7 +108,7 @@ function makeSearchResultItem(videoName, { text, timeStart, timeEnd }) {
         let timeEnd = times[1];
 
         status(`Rendering '${el.dataset.filename}' at ${formatTimestamp(timeStart)}...`);
-        await fetchRender(renderModeInput.value, el.dataset.filename, [timeStart, timeEnd]);
+        await fetchRender(renderModeInput.value, renderSubtitlesInput.checked, el.dataset.filename, [timeStart, timeEnd]);
         status(`Rendered '${el.dataset.filename}' at ${formatTimestamp(timeStart)}.`);
     });
 
@@ -146,13 +147,13 @@ searchTermInput.addEventListener("keydown", e => {
 
 /* render pane */
 
-function fetchRender(modeStr, videoFilename, [timeStart, timeEnd]) {
-    const srcUrl = `/api/render?mode=${modeStr}&filename=${videoFilename}&start=${timeStart}&end=${timeEnd}`;
+function fetchRender(modeStr, includeSubtitles, videoFilename, [timeStart, timeEnd]) {
+    const srcUrl = `/api/render?mode=${modeStr}&subtitles=${includeSubtitles ? "true" : "false"}&filename=${videoFilename}&start=${timeStart}&end=${timeEnd}`;
     return new Promise(resolve => {
         const [el, eventName] =
             modeStr === "audio" ?
             [renderAudioEl, "canplaythrough"] :
-            modeStr === "video" ?
+            modeStr.startsWith("video") ?
             [renderVideoEl, "canplaythrough"] :
             modeStr === "screenshot" ?
             [renderImageEl, "load"] :

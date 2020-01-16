@@ -94,7 +94,7 @@ section .container {
     margin-top: 0.5em;
 }
 
-#render-image {
+.render {
     max-width: 100%;
     max-height: 100%;
 }

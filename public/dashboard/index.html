@@ -22,6 +22,7 @@
                             <select id="render-setting-mode">
                                 <option value="screenshot">Screenshot</option>
                                 <option value="audio">Audio</option>
+                                <option value="video">Video</option>
                             </select>
                         </label>
                         <label>
@@ -35,8 +36,9 @@
                     </div>
                 </header>
                 <div class="container" id="section-render">
-                    <img id="render-image"/>
-                    <audio id="render-audio" controls></audio>
+                    <img class="render" id="render-image"/>
+                    <audio class="render" id="render-audio" controls></audio>
+                    <video class="render" id="render-video" controls></video>
                 </div>
             </section>
             <section class="tall">

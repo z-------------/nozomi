@@ -12,6 +12,7 @@ const renderPositionInput = document.getElementById("render-setting-position");
 
 const renderImageEl = document.getElementById("render-image");
 const renderAudioEl = document.getElementById("render-audio");
+const renderVideoEl = document.getElementById("render-video");
 
 const extractEl = document.getElementById("section-extract");
 
@@ -148,12 +149,17 @@ searchTermInput.addEventListener("keydown", e => {
 function fetchRender(modeStr, videoFilename, [timeStart, timeEnd]) {
     const srcUrl = `/api/render?mode=${modeStr}&filename=${videoFilename}&start=${timeStart}&end=${timeEnd}`;
     return new Promise(resolve => {
-        const [el, eventName] = modeStr === "audio" ?
+        const [el, eventName] =
+            modeStr === "audio" ?
             [renderAudioEl, "canplaythrough"] :
-            [renderImageEl, "load"];
+            modeStr === "video" ?
+            [renderVideoEl, "canplaythrough"] :
+            modeStr === "screenshot" ?
+            [renderImageEl, "load"] :
+            undefined;
         el.removeAttribute("src");
         el[`on${eventName}`] = () => {
-            if (modeStr === "audio") el.play();
+            if (["audio", "video"].includes(modeStr)) el.play();
             resolve();
         };
         el.setAttribute("src", srcUrl);

@@ -76,6 +76,8 @@ app.use(async (ctx, next) => {
             const [mode, ext] = suitchi(ctx.query["mode"], [
                 ["screenshot", [RenderMode.Screenshot, "jpg"]],
                 ["audio", [RenderMode.Audio, "m4a"]],
+                // ["video", [ctx.query["subtitles"] ? RenderMode.VideoSub : RenderMode.VideoNoSub, "mp4"]],
+                ["video", [RenderMode.VideoSub, "mp4"]],
             ]);
             const videoPath = path.join(config["video_dir"], ctx.query["filename"]);
 

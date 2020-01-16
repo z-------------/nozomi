@@ -12,6 +12,7 @@ const render = require("./lib/render");
 const list = require("./lib/list");
 
 const formatTimestamp = require("./lib/formatTimestamp");
+const isEmpty = require("./lib/isEmpty");
 
 const PORT = 8080;
 
@@ -44,7 +45,7 @@ const app = new Koa();
 
 // logger
 app.use((ctx, next) => {
-    console.log(ctx.path, Object.assign({}, ctx.query));
+    console.log(ctx.method, ctx.path, ... isEmpty(ctx.query) ? [] : [Object.assign({}, ctx.query)]);
     return next();
 });
 

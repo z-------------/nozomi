@@ -66,7 +66,7 @@ app.use(async (ctx, next) => {
             break;
 
         case "search":
-            const exact = ctx.query["exact"] ? (ctx.query["exact"] === "true" ? true : false) : false;
+            const exact = ctx.query["exact"] === "true" ? true : false;
             const results = await search(ctx.query["term"], exact, config);
             ctx.body = results;
             break;

@@ -12,7 +12,6 @@ const search = require("./lib/search");
 const { render, getRenderName, RenderMode } = require("./lib/render");
 const list = require("./lib/list");
 
-const formatTimestamp = require("./lib/formatTimestamp");
 const isEmpty = require("./lib/isEmpty");
 
 const PORT = 8080;
@@ -62,13 +61,13 @@ app.use(async (ctx, next) => {
 
     switch (ctx.state.path[1]) {
         case "extract":
-            await extract(path.join(config["video_dir"], ctx.query["filename"]), config["sub_dir"]);
+            await extract(ctx.query["filename"], config);
             ctx.status = 200;
             break;
 
         case "search":
             const exact = ctx.query["exact"] ? (ctx.query["exact"] === "true" ? true : false) : false;
-            const results = await search(ctx.query["term"], exact, config["sub_dir"]);
+            const results = await search(ctx.query["term"], exact, config);
             ctx.body = results;
             break;
 
@@ -79,16 +78,17 @@ app.use(async (ctx, next) => {
                 ["audio", RenderMode.Audio],
                 ["video", RenderMode.Video],
             ]);
-            const videoPath = path.join(config["video_dir"], ctx.query["filename"]);
 
+            const videoFilename = ctx.query["filename"];
+            
             const timeStart = Number(ctx.query["start"]);
             const timeEnd = Number(ctx.query["end"]);
 
-            const outName = getRenderName(mode, { subtitles }, videoPath, [timeStart, timeEnd]);
+            const outName = getRenderName(mode, { subtitles }, videoFilename, [timeStart, timeEnd], config);
             try {
                 await fs.promises.stat(path.join(config["render_dir"], outName));
             } catch (e) {
-                await render(mode, { subtitles }, videoPath, config["sub_dir"], [timeStart, timeEnd], config["render_dir"], outName);
+                await render(mode, { subtitles }, videoFilename, [timeStart, timeEnd], outName, config);
             }
             await send(ctx, outName, { root: config["render_dir"] });
             break;
